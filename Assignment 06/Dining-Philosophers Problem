@@ -1,0 +1,139 @@
+import java.util.concurrent.Semaphore;  
+import java.util.concurrent.ThreadLocalRandom;  
+public class DiningPhilosophersProblem  
+{  
+//defining the number of philosophers  
+static int philosopher = 5;  
+//initializing an array of philosophers with the number of philosophers  
+static Philosopher philosophers[] = new Philosopher[philosopher];  
+//initializing an array of fork with the number of philosophers  
+static Fork forks[] = new Fork[philosopher];  
+static class Fork   
+{  
+  
+public Semaphore mutex = new Semaphore(1);  
+
+
+void grab()   
+{  
+try   
+{  
+//to get permission by semaphore
+mutex.acquire();  
+}  
+catch (Exception e)   
+{  
+e.printStackTrace(System.out);  
+}  
+}  
+//release the fork  
+void release()   
+{  
+
+mutex.release();  
+}  
+//checks if the fork is free or not  
+boolean isFree()   
+{  
+//the method returns the current number of permits available in the semaphore  
+  
+return mutex.availablePermits() > 0;  
+}  
+}   
+static class Philosopher extends Thread   
+{  
+public int number;  
+// 
+public Fork leftfork;  
+  
+public Fork rightfork;  
+//creating a constructor of the Philosopher class  
+Philosopher(int num, Fork left, Fork right)   
+{  
+number = num;  
+leftfork = left;  
+rightfork = right;  
+}  
+public void run()  
+{  
+while (true)   
+{  
+//philosopher grabs the fork if both are free  
+leftfork.grab();  
+System.out.println("Philosopher " + (number+1) + " grabs left fork.");  
+rightfork.grab();  
+System.out.println("Philosopher " + (number+1) + " grabs right fork.");  
+//hunger philosopher starts eating   
+eat();  
+//releases left and right fork when philosopher is not hunger  
+leftfork.release();  
+System.out.println("Philosopher " + (number+1) + " releases left fork.");  
+rightfork.release();  
+System.out.println("Philosopher " + (number+1) + " releases right fork.");  
+}  
+}  
+ 
+void eat()   
+{  
+try   
+{  
+  
+int sleepTime = ThreadLocalRandom.current().nextInt(0, 1000);  
+System.out.println("Philosopher " + (number+1) + " eats for " + sleepTime +"ms"); //sleeps the thread for a specified time  
+Thread.sleep(sleepTime);  
+}  
+catch (Exception e)   
+{  
+e.printStackTrace(System.out);  
+}  
+}
+}  
+public static void main(String args[])   
+{  
+//  
+for (int i = 0; i < philosopher; i++)   
+{  
+forks[i] = new Fork();  
+} //end of for loop  
+//loop iterates over philosopher  
+for (int i = 0; i < philosopher; i++)   
+{  
+philosophers[i] = new Philosopher(i, forks[i], forks[(i + 1) % philosopher]);  
+//begins the execution of the thread  
+philosophers[i].start();  
+} //end of for loop  
+while (true)   
+{  
+try   
+{  
+  
+Thread.sleep(2609);  
+//check for deadlock condition  
+boolean deadlock = true;  
+//  
+for (Fork cs : forks)   
+{  
+//  
+if (cs.isFree())   
+{  
+deadlock = false;  
+break;  
+} //end of if  
+} //end of for loop  
+//deadlock occurs if sleep time is 1000ms it means each philosopher is eating  
+if (deadlock)   
+{  
+Thread.sleep(1000);  
+System.out.println("Everyone Eats");  
+break;  
+} //end of if  
+}  
+catch (Exception e)   
+{  
+e.printStackTrace(System.out);  
+}  
+}  
+System.out.println("Exit The Program!");  
+System.exit(0);  
+}  
+}
