@@ -28,6 +28,8 @@ public class Main
         }else {
             qTime =1;
         }
+	//code by viki
+	//21BCE7553
         
         while(true)  
         {  
@@ -43,6 +45,7 @@ public class Main
         rem_bt[i]= rem_bt[i] - qTime;  
         else  
         if(rem_bt[i]>=0)  
+	//code by vjk
         {  
         temp = rem_bt[i];  
         rem_bt[i] = 0;  
