@@ -11,7 +11,8 @@ class Fcfs{
             wt[i] = bt[i - 1] + wt[i - 1];
         }
     }
-    
+    //code by viki
+    //21BCE7553
       static void turnAroundTime(int processes[], int n,
             int bt[], int wt[], int tat[]) {
         
@@ -29,7 +30,7 @@ class Fcfs{
         
        turnAroundTime(processes, n, bt, wt, tat);
  
-        
+        //code by vjk
         System.out.printf("Processes Burst time Waiting"
                        +" time Turn around time\n");
  
