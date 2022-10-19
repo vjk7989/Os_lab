@@ -1,0 +1,32 @@
+class MyThread extends Thread{
+    int n;
+    int s;
+    MyThread(int n,int s){
+        this.n = n;
+        this.s =s;
+    }
+    public void run(){
+        
+        for (int i=0;i<n ;i++ ){
+            System.out.println(Thread.currentThread().getName()+"->"+i);
+            try{
+            sleep(s);}
+            catch(Throwable e){
+                e.printStackTrace();
+            }
+        } 
+    }
+}
+//code by viki
+//21BCE7553
+public class Main
+{
+	public static void main(String[] args) {
+		MyThread t1 = new MyThread(3,600);
+		t1.start();
+		MyThread t2 = new MyThread(4,100);
+		t2.start();
+		MyThread t3 = new MyThread(10,10);
+		t3.start();
+	}
+}
