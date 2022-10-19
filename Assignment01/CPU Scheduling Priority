@@ -26,12 +26,13 @@ def get_wt_time( wt):
          
 def get_tat_time(tat, wt):
  
-    
+    #code by viki
+    #21BCE7553
     for i in range(tProceess):
         tat[i] = proc[i][1] + wt[i]
  
 def findgc():
-     
+     #code by vjk
     
     wt = [0] * 5
     tat = [0] * 5
