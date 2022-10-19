@@ -1,0 +1,127 @@
+//CPU Scheduling Using SJF
+import java.util.Scanner;
+class Sjf{
+    int Id; int arrTime; int bTime;
+     Sjf(int Id,int arrTime,int bTime)
+    {
+        this.Id = Id;
+        this.arrTime = arrTime;
+        this.bTime = bTime;
+    }
+    static void waitingTime(Sjf proc[], int n,
+                                     int wt[])
+    {
+        int rt[] = new int[n];
+       
+       
+        for (int i = 0; i < n; i++)
+            rt[i] = proc[i].bTime;
+       
+        int complete = 0, t = 0, minm = Integer.MAX_VALUE;
+        int shortest = 0, finish_time;
+        boolean check = false;
+       
+        
+        while (complete != n) {
+       
+            
+            for (int j = 0; j < n; j++) 
+            {
+                if ((proc[j].arrTime <= t) &&
+                  (rt[j] < minm) && rt[j] > 0) {
+                    minm = rt[j];
+                    shortest = j;
+                    check = true;
+                }
+            }
+       
+            if (check == false) {
+                t++;
+                continue;
+            }
+       
+            
+            rt[shortest]--;
+       
+            
+            minm = rt[shortest];
+            if (minm == 0)
+                minm = Integer.MAX_VALUE;
+       
+            
+            if (rt[shortest] == 0) {
+       
+               
+                complete++;
+                check = false;
+       
+                
+                finish_time = t + 1;
+       
+                
+                wt[shortest] = finish_time -
+                             proc[shortest].bTime -
+                             proc[shortest].arrTime;
+       
+                if (wt[shortest] < 0)
+                    wt[shortest] = 0;
+            }
+            
+            t++;
+        }
+    }
+    static void tAround(Sjf proc[], int n,
+                            int wt[], int tat[])
+    {
+        
+        for (int i = 0; i < n; i++)
+            tat[i] = proc[i].bTime + wt[i];
+    }static void avgTime(Sjf proc[], int n)
+    {
+        int wt[] = new int[n], tat[] = new int[n];
+        int  total_wt = 0, total_tat = 0;
+       
+        
+        waitingTime(proc, n, wt);
+       
+        
+        tAround(proc, n, wt, tat);
+       
+        
+        System.out.println("Processes " +
+                           " Burst time " +
+                           " Waiting time " +
+                           " Turn around time");
+       
+       
+        for (int i = 0; i < n; i++) {
+            total_wt = total_wt + wt[i];
+            total_tat = total_tat + tat[i];
+            System.out.println(" " + proc[i].Id + "\t\t"
+                             + proc[i].bTime + "\t\t " + wt[i]
+                             + "\t\t" + tat[i]);
+        }
+       
+        System.out.println("Average waiting time = " +
+                          (float)total_wt / (float)n);
+        System.out.println("Average turn around time = " +
+                           (float)total_tat / (float)n);
+    }
+    
+}
+public class Main
+{
+	public static void main(String[] args) {
+	    
+	    
+	    
+		 Sjf proc[] = { new Sjf(11, 63, 21),
+		     new Sjf(21,32,77),
+		     new Sjf(45,11,31)
+		 };
+          
+         proc[0].avgTime(proc,proc.length);
+         
+	}
+}
+
