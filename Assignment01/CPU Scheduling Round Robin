@@ -1,0 +1,71 @@
+//CPU Scheduling Using Round Robin in java 
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	    Scanner sc = new Scanner(System.in);
+		int n,i,qt,count=0,temp,sq=0; 
+        float awt=0,tat1=0;  
+        System.out.println("Enter the max number : ");
+        int x = sc.nextInt();
+        int []bTime = new int[x];  
+        int []wt = new int[x];  
+        int []tat = new int[x];  
+        int []rem_bt = new int[x];
+        System.out.println("Burst time : ");
+        for (int i1=0;i1<x;i1++)  
+            {  
+            System.out.print("Process : "+i1+" = ");   
+            bTime[i1] = sc.nextInt();  
+            rem_bt[i1] = bTime[i1];  
+            } 
+        System.out.println("Want to enter quantam time ? y/n");
+        char st = sc.next().charAt(0);
+        int qTime;
+        if(st=='y'){
+            System.out.println("Enter the time");
+            qTime = sc.nextInt();
+        }else {
+            qTime =1;
+        }
+        
+        while(true)  
+        {  
+        for (i=0,count=0;i<x;i++)  
+        {  
+        temp = qTime;  
+        if(rem_bt[i] == 0)  
+        {  
+        count++;  
+        continue;  
+        }  
+        if(rem_bt[i]>qTime)  
+        rem_bt[i]= rem_bt[i] - qTime;  
+        else  
+        if(rem_bt[i]>=0)  
+        {  
+        temp = rem_bt[i];  
+        rem_bt[i] = 0;  
+        }  
+        sq = sq + temp;  
+        tat[i] = sq;  
+        }  
+        if(x == count)  
+        break;  
+        }  
+        for(i=0;i<x;i++)  
+{  
+wt[i]=tat[i]-bTime[i];  
+awt=awt+wt[i];  
+tat1=tat1+tat[i];  
+System.out.print("\n "+(i+1)+"\t "+bTime[i]+"\t\t "+tat[i]+"\t\t "+wt[i]+"\n");  
+}  
+awt=awt/x;  
+tat1=tat1/x;  
+System.out.println("\nAverage waiting Time = "+awt+"\n");  
+System.out.println("Average turnaround time = "+tat1);  
+        
+        
+        
+	}
+}
