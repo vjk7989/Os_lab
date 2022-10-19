@@ -1,0 +1,28 @@
+//Implementation of Memory Management Using Paging
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("Enter the page count : ");
+		int inp2 = sc.nextInt();
+		int [] pCount = new int[inp2+1];
+		System.out.println("Enter the page size  : ");
+		int pSize = sc.nextInt();		
+		System.out.println("Enter the page values");
+		
+		int [] frame = new int[10];// took max size as 10 to avoid making it complex
+		
+		for(int i=1;i<=inp2;i++){
+		    int inp1 = sc.nextInt();
+		    pCount[i] =inp1;
+	    	frame[inp1] = i;
+//code by viki 		    
+		}
+		System.out.println("Frame ->   Page ");
+		for(int j =0;j<frame.length;j++) {
+			System.out.println((j)+"     ->     "+frame[j]);
+			
+		}		
+	}
+}
