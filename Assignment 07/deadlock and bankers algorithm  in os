@@ -1,0 +1,126 @@
+//Implementation of Dead Lock prevention using Banker’s Algorithm
+import java.util.*;   
+import java.io.*;   
+class Main 
+{  
+    //to get need value 
+    static void findNeedValue(int needArray[][], int maxArray[][], int allocationArray[][], int totalProcess, int totalResources)  
+    {  
+        // need  = allocation - avaliable 
+        for (int i = 0 ; i < totalProcess ; i++){    
+            for (int j = 0 ; j < totalResources ; j++){
+                needArray[i][j] = maxArray[i][j] - allocationArray[i][j];  
+            }  
+        }  
+    }  
+  
+    // to check if we can execute it 
+    // we can only run if avaliable is greater than || equal to need 
+    static boolean checkSafeSystem(int processes[], int availableArray[], int maxArray[][], int allocationArray[][], int totalProcess, int totalResources)  
+    {  
+        int [][]needArray = new int[totalProcess][totalResources];  
+  
+    
+        findNeedValue(needArray, maxArray, allocationArray, totalProcess, totalResources);  
+  
+    
+        boolean []finishProcesses = new boolean[totalProcess];  
+  
+    
+        int []safeSequenceArray = new int[totalProcess];  
+  
+    
+        int []workArray = new int[totalResources];  
+          
+        for (int i = 0; i < totalResources ; i++)    
+            workArray[i] = availableArray[i];  
+  
+        
+        int counter = 0;  
+          
+        
+        while (counter < totalProcess)  
+        {  
+        
+            boolean foundSafeSystem = false;  
+            for (int m = 0; m < totalProcess; m++)  
+            {  
+                if (finishProcesses[m] == false)        
+                {  
+                    int j;  
+                      
+                    
+                    for (j = 0; j < totalResources; j++)  
+                        if (needArray[m][j] > workArray[j])      
+                            break;  
+  
+                    
+                    if (j == totalResources)  
+                    {  
+                        for (int k = 0 ; k < totalResources ; k++)  
+                            workArray[k] += allocationArray[m][k];  
+  
+                    
+                        safeSequenceArray[counter++] = m;  
+  
+                    
+                        finishProcesses[m] = true;  
+  
+                        foundSafeSystem = true;  
+                    }  
+                }  
+            }  
+//21BCE7553  
+            
+            if (foundSafeSystem == false)  
+            {  
+                System.out.print("lack of resources");  
+                return false;  
+            }  
+        }  
+  
+//code by viki         
+        System.out.print("The sequence is : ");  
+        for (int i = 0; i < totalProcess ; i++)  
+            System.out.print("P"+safeSequenceArray[i] + " ");  
+  
+        return true;  
+    }  
+  
+    
+    public static void main(String[] args)  
+    {    
+        Scanner sc = new Scanner(System.in);
+        int numberOfProcesses, numberOfResources;  
+ 
+        numberOfProcesses = 5;
+         
+        numberOfResources = 4 ; 
+          
+        int processes[] = new int[numberOfProcesses];  
+        for(int i = 0; i < numberOfProcesses; i++){  
+            processes[i] = i;  
+        }  
+          
+        int availableArray[] = new int[numberOfResources];  
+        for( int i = 0; i < numberOfResources; i++){  
+            System.out.println("Enter the availability of resource"+ i +": ");  
+            availableArray[i] = sc.nextInt();  
+        }  
+          
+        
+		
+		int[][] maxArray = {{0,0,1,2},
+		          {1,7,5,0},
+		          {2,3,5,6},
+		          {0,6,5,2},
+		          {0,6,5,6}};
+          
+        int [][]allocationArray = {{0,0,1,2},
+                           {1,0,0,0},
+                           {1,3,5,4},
+                           {0,6,3,2},
+                           {0,0,1,4}};
+        checkSafeSystem(processes, availableArray, maxArray, allocationArray, numberOfProcesses, numberOfResources);  
+    }  
+}  
