@@ -1,0 +1,31 @@
+#table_size = 3
+#reference_string = [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3]
+inn1 = int(input("Enter the frame size : "))
+inn2 = int(input("Enter the page sequence size : "))
+reference_string = []
+table_size = inn1
+for i in range(inn2):
+    reference_string[i] = int(input("Enter the value "))
+pages = []
+faults = 0
+for page in reference_string:
+    #code by viki
+    if page in pages:
+#21bce7553
+        pages.remove(page)
+
+        pages.append(page)
+    else:
+        if (len(pages) < table_size):
+            pages.append(page)
+
+        else:
+
+            pages.remove(pages[0])
+
+            pages.append(page)
+
+        faults += 1
+    print(pages)
+
+print("total page faults = ", faults)
